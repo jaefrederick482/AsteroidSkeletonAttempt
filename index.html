@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Asteroids</title>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro'
+    rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css"
+        href="http://www.sci.brooklyn.cuny.edu/~sdexter/style.css" />
+</head>
+
+<body>
+    <div id="container">
+
+        <h1>Project 1: Asteroids</h1>
+
+        <h2>Overview</h2>
+
+        <p>
+            <em>Asteroids</em> is a classic arcade game which debuted in
+            1979 (see <a
+                href="http://en.wikipedia.org/wiki/Asteroids_(video_game)">http://en.wikipedia.org/wiki/Asteroids_(video_game)</a>).
+            As one computer science professor describes the game, it is
+            "a timeless tale of triumph and sacrifice, of hatred and
+            love, of space travel wrapped around our screens and our
+            hearts. One solitary ship, an interminable journey, a
+            violent struggle for freedom...." Before you go any farther,
+            stop and play the game for a few minutes: <a
+                href="http://www.freeasteroids.org">http://www.freeasteroids.org</a>
+            (note: the only four control keys are the space bar and up,
+            left, and right arrows). As you play, start thinking about
+            the "noteworthy events" of the game&mdash;things that your
+            code will have to detect and respond to.
+        </p>
+
+        <p>
+            It's also fairly easy to implement, especially if you have
+            help with the math. If you browse the Java API, you'll see
+            that Java provides some classes very similar to what we need
+            (e.g.
+            <code>Point</code>
+            and
+            <code>Polygon</code>
+            ), but for this project, we'll mostly "roll our
+            own"&mdash;in part so that you can see the mathematics
+            involved, in part because using the Java-provided classes in
+            a game like this would require a more-complicated
+            object-oriented design.
+        </p>
+
+        <p>For this project, you will be required to implement the
+            basics of the game (detailed below); there is plenty of
+            opportunity for extra credit, implementing 'extra' features.
+        </p>
+
+        <p>In this project repository, I'm providing you with some
+            "skeleton" code. Some of it is code that you won't need to
+            touch (or even understand)&mdash;code that provides the
+            basic mechanics of the game graphics, for example. Some of
+            it is code that you'll certainly need to modify and
+            extend&mdash;I give you basic code for polygons, but how
+            will you use that to create the ships and asteroids of the
+            game?</p>
+
+        <p>
+            You'll get a lot of answers by reading the documentation for
+            the code, either in the files themselves or as <a
+                href="doc/index.html">javadocs</a>
+        </p>
+
+        <h2>Java graphics</h2>
+
+        <p>
+            For this game (like almost any video game), you will be
+            forced to think about the x-y coordinate plane (be glad this
+            is a 2-D game, not a 3-D one!). You may be used to a
+            coordinate system where the origin (0,0) is the bottom left,
+            with positive numbers going up and to the right&mdash;or you
+            may be familiar with a coordinate system where the origin is
+            in the middle, with positive x to the right and positive y
+            above. In Java, the world is a little different: the origin
+            (0,0) is the <em>top left</em> corner, positive x goes to
+            the right (as 'usual'), and positive y goes <em>down</em>.
+            Angles in this system are also different than you might be
+            used to: "0 degrees of rotation" points to the right along
+            the positive x axis (as 'usual' in geometry/trigonometry),
+            but increasing degrees of rotation go <em>clockwise</em>, so
+            "90 degrees of rotation" is <em>down</em> the positive y
+            axis, and "270 degrees of rotation" is <em>up</em> the
+            negative y axis. Stop here and draw yourself a picture.
+        </p>
+
+        <p>
+            In Java, the actual drawing of things is done by a
+            <code>Graphics</code>
+            object, named
+            <code>brush</code>
+            in this code. Browse the API to see what kinds of methods
+            are available to
+            <code>Graphics</code>
+            objects.
+            <ul>
+                <li>As a first step: run this skeleton code. It
+                    should produce a boring black window.</li>
+                <li>As a tiny second step, modify the game code to
+                    draw a white line somewhere in the center of the
+                    game display. (Where does this code go? What
+                    method(s) will you need to do this?)</li>
+            </ul>
+        </p>
+
+        <h2>Adding Behavior</h2>
+
+        <p>
+            Most of the 'action' will be split between
+            <code>Asteroid</code>
+            object(s) and
+            <code>Polygon</code>
+            object(s). Take a look a the
+            <code>Polygon</code>
+            code. You don't need to master the mathematics, but look at
+            the methods available (Eclipse's outline view might be
+            helpful). How will the game logic make use of the
+            <code>contains()</code>
+            method, for example?
+        </p>
+
+        <p>
+            OK, now
+            <ul>
+                <li>Declare a new class which will model your ship.
+                    It should be a subclass of <code>Polygon</code>
+                </li>
+                <li>Modify your game code so that the ship appears
+                    in the middle of game, "pointing" upward, just like
+                    it should.</li>
+            </ul>
+
+            But the ship doesn't move. This next step is something of a
+            challenge.
+            <ul>
+                <li>Modify your game code so that the ship starts
+                    in the center of the game <i>and</i> moves upward.
+                    We obviously haven't added any controls yet. Don't
+                    worry about that. (What aspects of your ship will
+                    change when it's in motion? How will you make sure
+                    that change happens uniformly across time? Looking
+                    ahead, when we add controls, your ship will need to
+                    <em>accelerate</em>. What are the implications of
+                    that? )
+                </li>
+            </ul>
+
+            Once your ship is moving, there are two logical next steps,
+            which you could tackle in any order you please:
+            <ul>
+                <li>Populate the game with at least a couple
+                    asteroids. What about their motion?</li>
+                <li>Add controls to the ship; see below</li>
+            </ul>
+
+            <h2>Adding Control</h2>
+
+            <p>
+                To get our ship to respond to key-presses, it needs to <em>implement
+                    an interface</em>. In particular, it needs to implement
+                the
+                <code>KeyListener</code>
+                interface. Browse the Java API&mdash; which package is
+                this in? What methods do you need to implement in order
+                to correctly implement this interface? (Hint: you must
+                provide an implementation of
+                <code>KeyTyped()</code>
+                , but your implementation should be empty. Let the other
+                methods do the work.)
+            </p>
+
+            <p>
+                Decide which three keys you want to use to control the
+                ship. (Hint: in my experience, it's easier to work with
+                the alphanumeric keys than with the arrow keys.)
+                <ul>
+                    <li>Implement the <code>KeyListener</code>
+                        interface so that it "hears" and responds to
+                        your control keys. Hint: just set boolean
+                        variables indicating which key has been
+                        pressed/released. Don't change the ship's
+                        behavior in the interface implementation;
+                        instead, test the boolean variables in the part
+                        of your code that affects the ship's movement.
+                    </li>
+                    <li>Once the interface is implemented, modify
+                        your game code so that your ship responds
+                        properly to your controls.</li>
+                </ul>
+
+                <h2>Interaction</h2>
+
+                <p>
+                    Once you can control your ship, it's fair to expect
+                    you to avoid those asteroids!
+                    <ul>
+                        <li>Modify your game code so that something
+                            "appropriate" happens if your ship collides
+                            with an asteroid.</li>
+                    </ul>
+                </p>
+                <hr />
+
+                <h2>Doing More</h2>
+
+                <p>
+                    You've now done everything you need to do to earn
+                    100% on this project. Yes, there is lots more that
+                    could be done! For extra credit (plus your personal
+                    satisfaction), you might want to:
+                    <ul>
+                        <li>Give your ship the ability to shoot
+                            bullets.</li>
+                        <li>Give those bullets the power to
+                            degrade/destroy asteroids.</li>
+                        <li>Give your asteroids the ability to
+                            split into smaller asteroids.</li>
+                        <li>Give the game the ability to keep the
+                            number of asteroids on the board constant
+                            (so if one is destroyed, a new one 'spawns'
+                            soon after)</li>
+                        <li>Or, have the number of asteroids
+                            increase over time, increasing the
+                            difficulty of the game</li>
+                        <li>Add stars in the 'background.' Your
+                            ship and the asteroids should be "in front
+                            of" the stars.</li>
+                        <li>Make the stars 'twinkle.'</li>
+                        <li>Give your ship multiple 'lives.'</li>
+                        <li>Display a running score.</li>
+                        <li>Anything else you can dream of!</li>
+                    </ul>
+                </p>
+
+                <hr />
+                <h2>Submission and Grading</h2>
+
+                <p>This project is due 30 minutes before class on
+                    Class 13 (October 16 for Thursday evening; October
+                    22 for M/W afternoon). At that time, I will clone
+                    your GitHub repository. No subsequent changes to
+                    your repository will be graded.</p>
+            </p>
+
+            <p>I will communicate with you about your project
+                through GitHub&mdash;at minimum, I will add comments to
+                your code and push the results back to you.</p>
+
+            <p>
+                I will grade out of 100 points, allocated as follows:
+                <ol>
+                    <li><b>10% Steady Work</b>. One week after you
+                        receive this assignment, I will check to make
+                        sure that you have made at least three
+                        'substantial' commits to your GitHub repository.
+                        They don't have to be large, but they need to
+                        show that you're working.</li>
+                    <li><p>
+                            <b>20% Documentation</b>. Your project
+                            should include revised documentation in the
+                            doc folder. For classes/methods that you
+                            don't change, you don't need to change the
+                            documentation. For methods/classes that do
+                            change, <em>delete</em> my doccomments and
+                            replace them with your own. Yours must all
+                            begin with the word
+                            <code>NEW</code>
+                            so that I can locate them easily. Use
+                            Eclipse's "Generate Javadocs..." function to
+                            generate the new documentation. Also, revise
+                            the README.md to include a brief summary of
+                            the methods and classes you changed.
+                        </p>
+
+                        <p>
+                            5 of the 20 points for this section will be
+                            for your "Works Cited" section. I expect you
+                            will need to consult a variety of resources
+                            to complete this project. Any website, book,
+                            or similar resource from which you get
+                            useful guidance must be listed here, along
+                            with a brief description of what you got
+                            from it (a bit of code? an explanation? an
+                            answer to a question?). You do not need to
+                            list the Java API or either of the two books
+                            required/recommended for class. If you use
+                            no other resources, then your "Works Cited"
+                            section must simply contain the word <em>None</em>."
+                            This section should appear in the README.md
+                            after the method/class summary.
+                        </p></li>
+                    <li><b>10% Style</b>. Your code should be
+                        properly formatted, with enough (but not too
+                        much) whitespace. Eclipse will do most of this
+                        for you; make sure you let it help you. Variable
+                        names, metohd names, etc, should all be
+                        "self-documenting" but not excessively long. <em>Generally</em>,
+                        you can use any style you like, as long as
+                        you're consistent. If you're not sure what style
+                        to use, follow the <a
+                        href="https://google-styleguide.googlecode.com/svn/trunk/javaguide.html">
+                            Google Style Guide</a>, except where Eclipse's
+                        automatic formatting contradicts these
+                        guidelines.</li>
+                    <li><b> 50% Correctness and Efficiency </b>.
+                        Does your game "play properly?" Does it offer at
+                        least the minimum set of behaviors described
+                        above? Does it do so efficiently, without
+                        wasting computation?</li>
+                    <li><b>10% Design</b>. Are the relationships
+                        among your classes (and the way they interact
+                        with the Java library classes) logical, clear,
+                        and robust? Do they (for example) adhere to the
+                        IS-A and HAS-A rules? (In future projects, this
+                        will account for a larger portion of your
+                        grade.) Is your code otherwise well-designed,
+                        e.g. avoiding duplicate code?</li>
+                </ol>
+            </p>
+            <p>You can earn up to 15 points extra credit by
+                implementing extra behaviors. Any extra behaviors you
+                provide should be listed briefly in the README.md</p>
+
+            <p>
+                It's probably clear, but just to be explicit: on this
+                project, you are to work strictly <em>on your own</em>.
+                Specifically, you may neither show your code to, nor
+                look at the code of, anyone else taking 3120 this
+                semester. You may consult online/textbook resources
+                (subject to the "Documentation" requirements above). You
+                may certainly consult with me. You may, if you like,
+                discuss your design at a high level with other students
+                ("Oh, I found the
+                <code>java.foo.bar</code>
+                package to be really helpful," or, "Sure, I can explain
+                the geometry of a paint window to you."). I may relax
+                these constraints for later projects, but for this first
+                project, I want to make sure everyone digs in to
+                Eclipse, GitHub, and Java.
+            </p>
+    </div>
+</body>
+</html>
